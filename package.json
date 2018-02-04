@@ -3,7 +3,10 @@
   "license": "SEE LICENSE IN <your-license-filename>",
   "version": "0.0.0",
   "nativescript": {
-    "id": "org.nativescript.webmobileproject"
+    "id": "org.nativescript.webmobileproject",
+    "tns-android": {
+      "version": "3.4.1"
+    }
   },
   "dependencies": {
     "@angular/animations": "~5.2.0",
@@ -23,6 +26,7 @@
     "zone.js": "~0.8.2"
   },
   "devDependencies": {
+    "@angular/cli": "^1.6.7",
     "@angular/compiler-cli": "~5.2.0",
     "@ngtools/webpack": "~1.9.1",
     "babel-traverse": "6.26.0",
