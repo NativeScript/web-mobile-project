@@ -16,13 +16,13 @@ module.exports = env => {
     }
     const platforms = ["ios", "android"];
     const { snapshot, uglify, report, aot } = env;
-    const ngToolsWebpackOptions = { tsConfigPath: "tsconfig.json" };
+    const ngToolsWebpackOptions = { tsConfigPath: "./app/tsconfig.tns.json" };
 
     const config = {
         context: resolve("./app"),
         target: nativescriptTarget,
         entry: {
-            bundle: aot ? "./main.aot.ts" : "./main.ts",
+            bundle: "./main.tns.ts",
             vendor: "./vendor",
         },
         output: {
@@ -114,7 +114,7 @@ module.exports = env => {
             // AngularCompilerPlugin with augmented NativeScript filesystem to handle platform specific resource resolution.
             new nsWebpack.NativeScriptAngularCompilerPlugin(
                 Object.assign({
-                    entryModule: resolve(__dirname, "app/app.module#AppModule"),
+                    entryModule: resolve(__dirname, "app/app.module.tns#AppModule"),
                     skipCodeGeneration: !aot,
                     platformOptions: {
                         platform,
