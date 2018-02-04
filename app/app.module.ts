@@ -1,11 +1,16 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
+  declarations: [
+    AppComponent
+  ],
   imports: [
-  NativeScriptModule],
-  declarations: [],
+    BrowserModule
+  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
