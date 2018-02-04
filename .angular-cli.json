@@ -1,0 +1,14 @@
+{
+    "apps": [
+        {
+            "root": "app",
+            "prefix": "app"
+        }
+    ],
+    "defaults": {
+        "styleExt": "css",
+        "schematics": {
+            "collection": "@nativescript/schematics"
+        }
+    }
+}
