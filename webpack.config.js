@@ -22,7 +22,7 @@ module.exports = env => {
         context: resolve("./app"),
         target: nativescriptTarget,
         entry: {
-            bundle: "./main.tns.ts",
+            bundle: aot ? "./main.aot.ts" : "./main.tns.ts",
             vendor: "./vendor",
         },
         output: {
