@@ -9,5 +9,8 @@
         "./node_modules/*"
       ]
     }
-  }
+  },
+  "exclude": [
+    "**/*.web.ts"
+  ]
 }
