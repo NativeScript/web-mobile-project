@@ -1,4 +1,5 @@
 const { normalize, relative, resolve, join, parse } = require("path");
+const { statSync } = require("fs");
 
 const webpack = require("webpack");
 const nsWebpack = require("nativescript-dev-webpack");
@@ -44,14 +45,18 @@ module.exports = env => {
         uglify,
         report,
     } = env;
-    const ngToolsWebpackOptions = { tsConfigPath: join(__dirname, "tsconfig.tns.json") };
+    const ngToolsWebpackOptions = { tsConfigPath:
+        join(__dirname, 
+            aot ? "tsconfig.aot.json" : "tsconfig.tns.json"
+        )
+    };
 
     const appFullPath = resolve(projectRoot, appPath);
     const appResourcesFullPath = resolve(projectRoot, appResourcesPath);
 
     const entryModule = aot ?
         "main.aot.ts" :
-        "main.tns.ts";
+        "main.ns.ts";
     const entryPath = `./${entryModule}`;
     const vendorPath = `./vendor.ts`;
 
@@ -256,21 +261,20 @@ class PlatformReplacementHost {
     }
 
     _resolve(path) {
-        const {dir, name, ext} = parse(path);
-        this._platforms.forEach(platform => {
+        const { dir, name, ext } = parse(path);
+
+        for (const platform of this._platforms) {
             const newPath = join(dir, `${name}.${platform}${ext}`);
 
             try {
-                const stat = this._delegate.statSync(newPath);
-                if (stat && stat.isFile()) {
-                    return newPath;
-                }
+                const stat = statSync(newPath);
+                return stat && stat.isFile() ?
+                    newPath :
+                    path;
             } catch(_e) {
-                // do nothing
+                return path;
             }
-        });
-
-        return path;
+        }
     }
 
     get capabilities() { return this._delegate.capabilities; }
