@@ -11,6 +11,7 @@
     "**/*.android.ts",
     "**/*.ios.ts",
     "./main.aot.ts",
+    "./main.ns.ts",
     "./vendor.ts"
   ]
 }

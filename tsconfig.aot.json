@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "exclude": [
+    "**/*.ns.ts",
     "**/*.tns.ts",
     "**/*.android.ts",
     "**/*.ios.ts"

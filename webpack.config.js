@@ -26,8 +26,10 @@ module.exports = env => {
  
     const platforms = ["ios", "android"];
     const projectRoot = __dirname;
+    nsWebpack.loadAdditionalPlugins({ projectDir: projectRoot });
+
     // Default destination inside platforms/<platform>/...
-    const dist = resolve(projectRoot, nsWebpack.getAppPath(platform));
+    const dist = resolve(projectRoot, nsWebpack.getAppPath(platform, projectRoot));
     const appResourcesPlatformDir = platform === "android" ? "Android" : "iOS";
 
     const {
@@ -194,9 +196,10 @@ module.exports = env => {
             // Support for web workers since v3.2
             new NativeScriptWorkerPlugin(),
             // AngularCompilerPlugin with augmented NativeScript filesystem to handle platform specific resource resolution.
+
             new nsWebpack.NativeScriptAngularCompilerPlugin(
                 Object.assign({
-                    entryModule: resolve(__dirname, "app/app.module.tns#AppModule"),
+                    entryModule: resolve(__dirname, "app/app.module#AppModule"),
                     skipCodeGeneration: !aot,
                     platformOptions: {
                         platform,
@@ -205,6 +208,20 @@ module.exports = env => {
                     host: platformHost,
                 }, ngToolsWebpackOptions)
             ),
+
+
+          /**
+            new AngularCompilerPlugin(
+                Object.assign({
+                    entryModule: resolve(__dirname, "app/app.module.tns#AppModule"),
+                  // skipCodeGeneration: !aot,
+                    skipCodeGeneration: false,
+                    host: platformHost,
+                }, ngToolsWebpackOptions)
+            ),
+          */
+
+
             // Does IPC communication with the {N} CLI to notify events when running in watch mode.
             new nsWebpack.WatchStateLoggerPlugin(),
         ],
@@ -262,6 +279,7 @@ class PlatformReplacementHost {
 
     _resolve(path) {
         const { dir, name, ext } = parse(path);
+        if (path.indexOf("app") > -1 || path.indexOf("main") > -1)console.log(path);
 
         for (const platform of this._platforms) {
             const newPath = join(dir, `${name}.${platform}${ext}`);
