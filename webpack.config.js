@@ -15,6 +15,12 @@ const { virtualFs } = require("@angular-devkit/core");
 const { AngularCompilerPlugin } = require("@ngtools/webpack");
 
 module.exports = env => {
+    // Add your custom Activities, Services and other Android app components here.
+    const appComponents = [
+        "tns-core-modules/ui/frame",
+        "tns-core-modules/ui/frame/activity",
+    ];
+
     const platform = env && (env.android && "android" || env.ios && "ios");
     if (!platform) {
         throw new Error("You need to provide a target platform!");
@@ -63,7 +69,7 @@ module.exports = env => {
     const vendorPath = `./vendor.ts`;
 
     const config = {
-        mode: "development",
+        mode: uglify ? "production" : "development",
         context: appFullPath,
         watchOptions: {
             ignored: [
@@ -78,7 +84,7 @@ module.exports = env => {
             vendor: vendorPath,
         },
         output: {
-            pathinfo: true,
+            pathinfo: false,
             path: dist,
             libraryTarget: "commonjs2",
             filename: "[name].js",
@@ -88,14 +94,15 @@ module.exports = env => {
             extensions: [".ts", ".js", ".scss", ".css"],
             // Resolve {N} system modules from tns-core-modules
             modules: [
+                resolve(__dirname, "node_modules/tns-core-modules"),
+                resolve(__dirname, "node_modules"),
                 "node_modules/tns-core-modules",
                 "node_modules",
             ],
             alias: {
                 '~': appFullPath
             },
-            // don't resolve symlinks to symlinked modules
-            symlinks: false
+            symlinks: true
         },
         resolveLoader: {
             // don't resolve symlinks to symlinked loaders
@@ -114,10 +121,14 @@ module.exports = env => {
             runtimeChunk: { name: "vendor" },
             splitChunks: {
                 cacheGroups: {
-                    common: {
-                        name: "common",
+                    vendor: {
+                        name: "vendor",
                         chunks: "all",
-                        test: /vendor/,
+                        test: (module, chunks) => {
+                            const moduleName = module.nameForCondition ? module.nameForCondition() : '';
+                            return /[\\/]node_modules[\\/]/.test(moduleName) ||
+                                    appComponents.some(comp => comp === moduleName);
+                        },
                         enforce: true,
                     },
                 }
@@ -127,13 +138,41 @@ module.exports = env => {
                 // Override default minimizer to work around an Android issue by setting compress = false
                 new UglifyJsPlugin({
                     uglifyOptions: {
-                        compress: platform !== "android"
+                        parallel: true,
+                        cache: true,
+                        output: {
+                            comments: false,
+                        },
+                        compress: {
+                            // The Android SBG has problems parsing the output
+                            // when these options are enabled
+                            'collapse_vars': platform !== "android",
+                            sequences: platform !== "android",
+                        }
                     }
                 })
             ],
         },
         module: {
             rules: [
+                {
+                    test: new RegExp(entryPath),
+                    use: [
+                        // Require all Android app components
+                        platform === "android" && {
+                            loader: "nativescript-dev-webpack/android-app-components-loader",
+                            options: { modules: appComponents }
+                        },
+
+                        {
+                            loader: "nativescript-dev-webpack/bundle-config-loader",
+                            options: {
+                                loadCss: !snapshot, // load the application css if in debug mode
+                            }
+                        },
+                    ].filter(loader => !!loader)
+                },
+
                 { test: /\.html$|\.xml$/, use: "raw-loader" },
 
                 // tns-core-modules reads the app.css and its imports using css-loader
@@ -163,6 +202,13 @@ module.exports = env => {
                         { loader: "@ngtools/webpack", options: ngToolsWebpackOptions },
                     ]
                 },
+
+                // Mark files inside `@angular/core` as using SystemJS style dynamic imports.
+                // Removing this will cause deprecation warnings to appear.
+                {
+                    test: /[\/\\]@angular[\/\\]core[\/\\].+\.js$/,
+                    parser: { system: true },
+                },
             ],
         },
         plugins: [
@@ -171,7 +217,7 @@ module.exports = env => {
                 "global.TNS_WEBPACK": "true",
             }),
             // Remove all files from the out dir.
-            new CleanWebpackPlugin([`${dist}/**/*`]),
+            new CleanWebpackPlugin([ `${dist}/**/*` ]),
             // Copy native app resources to out dir.
             new CopyWebpackPlugin([
                 {
@@ -190,7 +236,6 @@ module.exports = env => {
             // Generate a bundle starter script and activate it in package.json
             new nsWebpack.GenerateBundleStarterPlugin([
                 "./vendor",
-                "./common",
                 "./bundle",
             ]),
             // Support for web workers since v3.2
@@ -199,7 +244,7 @@ module.exports = env => {
 
             new nsWebpack.NativeScriptAngularCompilerPlugin(
                 Object.assign({
-                    entryModule: resolve(__dirname, "app/app.module#AppModule"),
+                    entryModule: resolve(appPath, "app.module#AppModule"),
                     skipCodeGeneration: !aot,
                     platformOptions: {
                         platform,
@@ -258,11 +303,18 @@ module.exports = env => {
 
     if (snapshot) {
         config.plugins.push(new nsWebpack.NativeScriptSnapshotPlugin({
-            chunks: [ "vendor", "common" ],
+            chunk: "vendor",
+            requireModules: [
+                "reflect-metadata",
+                "@angular/platform-browser",
+                "@angular/core",
+                "@angular/common",
+                "@angular/router",
+                "nativescript-angular/platform-static",
+                "nativescript-angular/router",
+            ],
             projectRoot,
             webpackConfig: config,
-            targetArchs: ["arm", "arm64", "ia32"],
-            useLibs: false
         }));
     }
 
@@ -279,7 +331,7 @@ class PlatformReplacementHost {
 
     _resolve(path) {
         const { dir, name, ext } = parse(path);
-        if (path.indexOf("app") > -1 || path.indexOf("main") > -1)console.log(path);
+        // if (path.indexOf("app") > -1 || path.indexOf("main") > -1)console.log(path);
 
         for (const platform of this._platforms) {
             const newPath = join(dir, `${name}.${platform}${ext}`);
