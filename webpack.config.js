@@ -240,32 +240,14 @@ module.exports = env => {
             ]),
             // Support for web workers since v3.2
             new NativeScriptWorkerPlugin(),
-            // AngularCompilerPlugin with augmented NativeScript filesystem to handle platform specific resource resolution.
 
-            new nsWebpack.NativeScriptAngularCompilerPlugin(
-                Object.assign({
-                    entryModule: resolve(appPath, "app.module#AppModule"),
-                    skipCodeGeneration: !aot,
-                    platformOptions: {
-                        platform,
-                        platforms,
-                    },
-                    host: platformHost,
-                }, ngToolsWebpackOptions)
-            ),
-
-
-          /**
             new AngularCompilerPlugin(
                 Object.assign({
                     entryModule: resolve(__dirname, "app/app.module.tns#AppModule"),
-                  // skipCodeGeneration: !aot,
-                    skipCodeGeneration: false,
+                    skipCodeGeneration: !aot,
                     host: platformHost,
                 }, ngToolsWebpackOptions)
             ),
-          */
-
 
             // Does IPC communication with the {N} CLI to notify events when running in watch mode.
             new nsWebpack.WatchStateLoggerPlugin(),
@@ -321,7 +303,6 @@ module.exports = env => {
     return config;
 };
 
-
 class PlatformReplacementHost {
     constructor(_delegate, _platforms) {
         this._delegate = _delegate;
@@ -331,7 +312,6 @@ class PlatformReplacementHost {
 
     _resolve(path) {
         const { dir, name, ext } = parse(path);
-        // if (path.indexOf("app") > -1 || path.indexOf("main") > -1)console.log(path);
 
         for (const platform of this._platforms) {
             const newPath = join(dir, `${name}.${platform}${ext}`);
@@ -342,18 +322,22 @@ class PlatformReplacementHost {
                     newPath :
                     path;
             } catch(_e) {
-                return path;
+                // continue checking the other platforms
             }
         }
+
+        return path;
     }
 
     get capabilities() { return this._delegate.capabilities; }
     write(path, content) {
         return this._delegate.write(this._resolve(path), content);
     }
+
     read(path) {
         return this._delegate.read(this._resolve(path));
     }
+
     delete(path) {
         return this._delegate.delete(this._resolve(path));
     }
