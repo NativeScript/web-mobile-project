@@ -6,6 +6,9 @@
     "id": "org.nativescript.webmobileproject",
     "tns-android": {
       "version": "4.1.0-2018.5.3.4"
+    },
+    "tns-ios": {
+      "version": "4.0.1"
     }
   },
   "dependencies": {
@@ -26,10 +29,9 @@
     "zone.js": "~0.8.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.5.0",
+    "@angular-devkit/build-angular": "git+https://github.com/angular/angular-devkit-build-angular-builds.git",
     "@angular/cli": "git+https://github.com/angular/cli-builds.git",
     "@angular/compiler-cli": "~6.0.0",
-    "@ngtools/webpack": "git+https://github.com/angular/ngtools-webpack-builds.git",
     "babel-traverse": "6.26.0",
     "babel-types": "6.26.0",
     "babylon": "6.18.0",
