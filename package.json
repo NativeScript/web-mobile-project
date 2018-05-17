@@ -9,15 +9,15 @@
     }
   },
   "dependencies": {
-    "@angular/animations": "~6.0.0-rc.2",
-    "@angular/common": "~6.0.0-rc.2",
-    "@angular/compiler": "~6.0.0-rc.2",
-    "@angular/core": "~6.0.0-rc.2",
-    "@angular/forms": "~6.0.0-rc.2",
-    "@angular/http": "~6.0.0-rc.2",
-    "@angular/platform-browser": "~6.0.0-rc.2",
-    "@angular/platform-browser-dynamic": "~6.0.0-rc.2",
-    "@angular/router": "~6.0.0-rc.2",
+    "@angular/animations": "~6.0.0",
+    "@angular/common": "~6.0.0",
+    "@angular/compiler": "~6.0.0",
+    "@angular/core": "~6.0.0",
+    "@angular/forms": "~6.0.0",
+    "@angular/http": "~6.0.0",
+    "@angular/platform-browser": "~6.0.0",
+    "@angular/platform-browser-dynamic": "~6.0.0",
+    "@angular/router": "~6.0.0",
     "nativescript-angular": "next",
     "nativescript-theme-core": "~1.0.4",
     "reflect-metadata": "~0.1.8",
@@ -26,10 +26,10 @@
     "zone.js": "~0.8.2"
   },
   "devDependencies": {
-    "@angular-devkit/core": "~0.5.1",
-    "@angular/cli": "^6.0.0-rc.2",
-    "@angular/compiler-cli": "~6.0.0-rc.2",
-    "@ngtools/webpack": "~6.0.0-rc.2.4",
+    "@angular-devkit/build-angular": "~0.5.0",
+    "@angular/cli": "git+https://github.com/angular/cli-builds.git",
+    "@angular/compiler-cli": "~6.0.0",
+    "@ngtools/webpack": "git+https://github.com/angular/ngtools-webpack-builds.git",
     "babel-traverse": "6.26.0",
     "babel-types": "6.26.0",
     "babylon": "6.18.0",
@@ -47,7 +47,6 @@
     "webpack": "~4.4.0",
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-cli": "~2.0.12",
-    "webpack-sources": "~1.1.0",
-    "@angular-devkit/build-angular": "~0.5.0"
+    "webpack-sources": "~1.1.0"
   }
 }
