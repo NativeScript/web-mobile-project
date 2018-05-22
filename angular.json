@@ -1,11 +1,26 @@
 {
   "version": 1,
   "newProjectRoot": "projects",
+  "defaultProject": "web-mobile-project",
   "projects": {
     "web-mobile-project": {
       "root": "",
       "projectType": "application",
       "architect": {
+        "ns": {
+          "builder": "nativescript-builder:nativescript",
+          "options": {
+            "platform": "ios"
+          },
+          "configurations": {
+            "ios": {
+              "platform": "ios"
+            },
+            "android": {
+              "platform": "android"
+            }
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {

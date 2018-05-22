@@ -6,7 +6,15 @@
     "id": "org.nativescript.webmobileproject",
     "tns-android": {
       "version": "4.1.0-2018.5.3.4"
+    },
+    "tns-ios": {
+      "version": "4.0.1"
     }
+  },
+  "scripts": {
+    "debug": "node --inspect-brk ./node_modules/@angular/cli/bin/ng run web-mobile-project:ns",
+    "start-ios": "ng run web-mobile-project:ns:ios",
+    "start-android": "ng run web-mobile-project:ns:android"
   },
   "dependencies": {
     "@angular/animations": "~6.0.0",
@@ -27,6 +35,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.5.0",
+    "@angular-devkit/core": "~0.5.5",
     "@angular/cli": "git+https://github.com/angular/cli-builds.git",
     "@angular/compiler-cli": "~6.0.0",
     "@ngtools/webpack": "git+https://github.com/angular/ngtools-webpack-builds.git",
@@ -40,6 +49,7 @@
     "lazy": "1.0.11",
     "nativescript-dev-webpack": "next",
     "nativescript-worker-loader": "~0.8.1",
+    "nativescript-builder": "git+https://github.com/NativeScript/nativescript-builder.git",
     "raw-loader": "~0.5.1",
     "resolve-url-loader": "~2.3.x",
     "typescript": "~2.7.2",
