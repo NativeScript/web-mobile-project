@@ -10,7 +10,7 @@
     "**/*.tns.ts",
     "**/*.android.ts",
     "**/*.ios.ts",
-    "./main.aot.ts",
+    "./main.ns.aot.ts",
     "./main.ns.ts",
     "./vendor.ts"
   ]

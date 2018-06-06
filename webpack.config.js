@@ -52,7 +52,6 @@ module.exports = env => {
     const entryModule = aot ?
         nsWebpack.getAotEntryModule(appFullPath) : 
         `${nsWebpack.getEntryModule(appFullPath)}.ts`;
-    console.log(entryModule)
     const entryPath = `.${sep}${entryModule}`;
 
     const config = {
@@ -150,6 +149,7 @@ module.exports = env => {
                         {
                             loader: "nativescript-dev-webpack/bundle-config-loader",
                             options: {
+                                angular: true,
                                 loadCss: !snapshot, // load the application css if in debug mode
                             }
                         },
@@ -249,6 +249,7 @@ module.exports = env => {
     if (snapshot) {
         config.plugins.push(new nsWebpack.NativeScriptSnapshotPlugin({
             chunk: "vendor",
+            angular: true,
             requireModules: [
                 "reflect-metadata",
                 "@angular/platform-browser",
