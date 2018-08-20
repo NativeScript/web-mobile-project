@@ -5,35 +5,31 @@
   "nativescript": {
     "id": "org.nativescript.webmobileproject",
     "tns-android": {
-      "version": "4.1.3"
+      "version": "4.2.0"
     }
   },
   "dependencies": {
-    "@angular/animations": "~6.1.0-rc.3",
-    "@angular/common": "~6.1.0-rc.3",
-    "@angular/compiler": "~6.1.0-rc.3",
-    "@angular/core": "~6.1.0-rc.3",
-    "@angular/forms": "~6.1.0-rc.3",
-    "@angular/http": "~6.1.0-rc.3",
-    "@angular/platform-browser": "~6.1.0-rc.3",
-    "@angular/platform-browser-dynamic": "~6.1.0-rc.3",
-    "@angular/router": "~6.1.0-rc.3",
-    "nativescript-angular": "next",
+    "@angular/animations": "~6.1.0",
+    "@angular/common": "~6.1.0",
+    "@angular/compiler": "~6.1.0",
+    "@angular/core": "~6.1.0",
+    "@angular/forms": "~6.1.0",
+    "@angular/http": "~6.1.0",
+    "@angular/platform-browser": "~6.1.0",
+    "@angular/platform-browser-dynamic": "~6.1.0",
+    "@angular/router": "~6.1.0",
+    "nativescript-angular": "~6.1.0",
     "nativescript-theme-core": "~1.0.4",
     "reflect-metadata": "~0.1.8",
     "rxjs": "~6.2.1",
-    "tns-core-modules": "^4.1.0",
+    "tns-core-modules": "~4.2.0",
     "zone.js": "~0.8.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.7.0-rc.3",
-    "@angular/cli": "~6.1.0-rc.3",
-    "@angular/compiler-cli": "~6.1.0-rc.3",
-    "babel-traverse": "6.26.0",
-    "babel-types": "6.26.0",
-    "babylon": "6.18.0",
-    "lazy": "1.0.11",
-    "nativescript-dev-webpack": "next",
-    "typescript": "~2.7.2"
+    "@angular-devkit/build-angular": "~0.8.0-beta.3",
+    "@angular/cli": "~6.2.0-beta.3",
+    "@angular/compiler-cli": "~6.1.0",
+    "nativescript-dev-webpack": "rc",
+    "typescript": "~2.9.2"
   }
 }
