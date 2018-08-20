@@ -8,6 +8,16 @@
       "version": "4.2.0"
     }
   },
+  "scripts": {
+    "android": "tns run android --bundle",
+    "ios": "tns run ios --bundle",
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
   "dependencies": {
     "@angular/animations": "~6.1.0",
     "@angular/common": "~6.1.0",
