@@ -2,5 +2,5 @@
   "android": {
     "v8Flags": "--expose_gc"
   },
-  "main": "main.ns.js"
+  "main": "main.js"
 }
