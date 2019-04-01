@@ -12,7 +12,7 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
     ]
   },
@@ -20,5 +20,18 @@
     "**/*.tns.ts",
     "**/*.android.ts",
     "**/*.ios.ts"
-  ]
+  ],
+  "baseUrl": ".",
+  "paths": {
+    "@src/*": [
+      "src/*.android.ts",
+      "src/*.ios.ts",
+      "src/*.tns.ts",
+      "src/*.web.ts",
+      "src/*"
+    ],
+    "~/*": [
+      "src/*"
+    ]
+  }
 }
